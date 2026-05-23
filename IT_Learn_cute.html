@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IT Learn ✦ 留学生向けIT用語学習アプリ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #FF8FAB;
+      --pink-light: #FFD6E0;
+      --pink-pale: #FFF0F5;
+      --lavender: #C8B6FF;
+      --lavender-light: #EDE8FF;
+      --mint: #B5EAD7;
+      --mint-light: #E8FBF3;
+      --yellow: #FFDB6B;
+      --yellow-light: #FFF8DC;
+      --sky: #A8D8EA;
+      --sky-light: #E3F6FF;
+      --coral: #FF9AA2;
+      --text-dark: #4A3F5C;
+      --text-mid: #7B6F8A;
+      --text-light: #A89BB8;
+      --bg: #FFF8FC;
+      --white: #FFFFFF;
+      --shadow: 0 4px 20px rgba(200,140,180,0.15);
+      --shadow-hover: 0 8px 30px rgba(200,140,180,0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Nunito', 'Zen Maru Gothic', sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, #FF8FAB 0%, #C8B6FF 50%, #A8D8EA 100%);
+      padding: 28px 20px 22px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.12'%3E%3Ccircle cx='10' cy='10' r='4'/%3E%3Ccircle cx='40' cy='20' r='2'/%3E%3Ccircle cx='55' cy='5' r='3'/%3E%3Ccircle cx='5' cy='45' r='2'/%3E%3Ccircle cx='30' cy='50' r='4'/%3E%3Ccircle cx='50' cy='45' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    header h1 {
+      font-size: 36px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    header h1 span { font-size: 28px; }
+    header p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.92);
+      margin-top: 6px;
+      font-weight: 600;
+      position: relative;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 16px;
+      flex-wrap: wrap;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(200,140,180,0.12);
+    }
+    nav button {
+      border: 2px solid transparent;
+      background: var(--pink-pale);
+      color: var(--pink);
+      padding: 8px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+    nav button:hover {
+      background: var(--pink);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(255,143,171,0.35);
+    }
+    nav button.nav-active {
+      background: var(--pink);
+      color: white;
+      box-shadow: 0 4px 14px rgba(255,143,171,0.35);
+    }
+
+    /* ===== PAGES ===== */
+    .page { display: none; padding: 24px 20px; max-width: 1100px; margin: auto; animation: fadeIn 0.3s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--pink-light);
+    }
+    .card h2 {
+      color: var(--text-dark);
+      margin-bottom: 16px;
+      font-size: 18px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card h2::before {
+      content: '';
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--pink);
+      box-shadow: 12px 0 0 var(--lavender);
+    }
+
+    /* ===== GRID ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    /* ===== TERM BOXES ===== */
+    .term-box {
+      border: 2px solid var(--pink-light);
+      border-radius: 20px;
+      padding: 20px;
+      transition: all 0.25s ease;
+      background: var(--white);
+      cursor: default;
+    }
+    .term-box:hover {
+      transform: translateY(-5px);
+      border-color: var(--pink);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .term-title {
+      font-size: 22px;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    /* ===== INLINE BOXES ===== */
+    .easy {
+      background: var(--sky-light);
+      border-left: 4px solid var(--sky);
+      padding: 12px 14px;
+      border-radius: 0 14px 14px 0;
+      margin: 10px 0;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .example {
+      background: var(--mint-light);
+      border-left: 4px solid var(--mint);
+      padding: 12px 14px;
+      border-radius: 0 14px 14px 0;
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .translation {
+      background: var(--yellow-light);
+      border-left: 4px solid var(--yellow);
+      padding: 12px 14px;
+      border-radius: 0 14px 14px 0;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    /* ===== FORM ELEMENTS ===== */
+    textarea, select, input[type="text"] {
+      width: 100%;
+      border-radius: 14px;
+      border: 2px solid var(--pink-light);
+      padding: 12px 16px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-dark);
+      background: var(--bg);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    textarea { min-height: 120px; resize: vertical; margin-top: 10px; }
+    select, input[type="text"] { margin-top: 10px; }
+    textarea:focus, select:focus, input[type="text"]:focus {
+      border-color: var(--pink);
+      background: white;
+      box-shadow: 0 0 0 4px var(--pink-pale);
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      background: linear-gradient(135deg, var(--pink), var(--lavender));
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      margin-top: 14px;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(255,143,171,0.3);
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255,143,171,0.4);
+    }
+    .btn:active { transform: translateY(0); }
+
+    /* ===== FEEDBACK ===== */
+    .feedback {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--mint-light);
+      border: 2px solid var(--mint);
+    }
+    .feedback h3 { color: #3D9970; margin-bottom: 8px; font-size: 16px; }
+
+    /* ===== STATS ===== */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      border-radius: 22px;
+      padding: 22px 18px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card:nth-child(1) { background: linear-gradient(135deg, #FF8FAB, #FFB3C6); }
+    .stat-card:nth-child(2) { background: linear-gradient(135deg, #C8B6FF, #A78BFA); }
+    .stat-card:nth-child(3) { background: linear-gradient(135deg, #6EE7B7, #34D399); }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      right: -10px; bottom: -10px;
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+    }
+    .stat-card h3 { font-size: 13px; color: rgba(255,255,255,0.9); margin-bottom: 8px; font-weight: 700; }
+    .stat-card p { font-size: 32px; font-weight: 800; color: white; }
+    .stat-card .stat-emoji { font-size: 22px; margin-bottom: 6px; display: block; }
+
+    /* ===== MISSION ===== */
+    .mission {
+      background: var(--yellow-light);
+      border: 2px solid var(--yellow);
+      padding: 14px 18px;
+      border-radius: 16px;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mission:hover { transform: translateX(4px); box-shadow: var(--shadow); }
+
+    /* ===== BADGES ===== */
+    .level-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .beginner { background: var(--mint-light); color: #2D7A5F; border: 1.5px solid var(--mint); }
+    .middle { background: var(--yellow-light); color: #8A6A00; border: 1.5px solid var(--yellow); }
+    .advanced { background: #FFE4E4; color: #C0392B; border: 1.5px solid #FFAAAA; }
+
+    /* ===== ILLUSTRATION ===== */
+    .illustration {
+      font-size: 52px;
+      text-align: center;
+      margin: 8px 0;
+      line-height: 1;
+    }
+
+    /* ===== NAVIGATION ARROWS ===== */
+    .study-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 10px;
+    }
+    .study-navigation .btn { margin-top: 0; }
+
+    /* ===== DIAGRAM ===== */
+    .diagram {
+      background: var(--lavender-light);
+      border: 2px dashed var(--lavender);
+      padding: 14px;
+      border-radius: 14px;
+      margin-top: 10px;
+      text-align: center;
+      line-height: 2;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-dark);
+    }
+
+    /* ===== REVIEW BOX ===== */
+    .review-box {
+      background: var(--lavender-light);
+      border: 2px solid var(--lavender);
+      padding: 14px 18px;
+      border-radius: 16px;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #5B4A8A;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-light);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    footer span { color: var(--pink); }
+
+    /* ===== LEVEL BOXES (HOME) ===== */
+    .level-select-box {
+      background: white;
+      border-radius: 20px;
+      padding: 22px;
+      border: 2px solid var(--pink-light);
+      text-align: center;
+      transition: all 0.25s;
+    }
+    .level-select-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--pink); }
+    .level-select-box .level-icon { font-size: 40px; margin-bottom: 10px; }
+    .level-select-box p { font-size: 13px; color: var(--text-mid); margin: 8px 0 12px; line-height: 1.6; }
+
+    /* Progress bar */
+    .progress-bar-wrap { background: var(--pink-light); border-radius: 999px; height: 8px; margin-top: 10px; }
+    .progress-bar { background: linear-gradient(90deg, var(--pink), var(--lavender)); border-radius: 999px; height: 8px; transition: width 0.4s; }
+
+    /* Weak words list */
+    #weakWords { list-style: none; padding: 0; }
+    #weakWords li {
+      background: var(--pink-pale);
+      border: 1.5px solid var(--pink-light);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #weakWords li::before { content: '⚠️'; font-size: 14px; }
+
+    /* Search recent */
+    .recent-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .recent-tag {
+      background: var(--lavender-light);
+      color: #5B4A8A;
+      border: 1.5px solid var(--lavender);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .recent-tag:hover { background: var(--lavender); color: white; }
+
+    @media(max-width: 700px) {
+      header h1 { font-size: 26px; }
+      .page { padding: 16px; }
+      .stat-card p { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🌸 IT Learn <span>✦</span></h1>
+  <p>留学生向け IT用語学習アプリ — やさしい日本語で学ぼう</p>
+</header>
+
+<nav>
+  <button onclick="showPage('home')" class="nav-active">🏠 ホーム</button>
+  <button onclick="showPage('words')">📖 単語学習</button>
+  <button onclick="showPage('search')">🔍 単語検索</button>
+  <button onclick="showPage('quiz')">✏️ AIクイズ</button>
+  <button onclick="showPage('record')">📊 学習記録</button>
+  <button onclick="showPage('review')">🔄 自動復習</button>
+</nav>
+
+<!-- ===== HOME ===== -->
+<section id="home" class="page active">
+
+  <div class="stats">
+    <div class="stat-card">
+      <span class="stat-emoji">⏰</span>
+      <h3>学習時間</h3>
+      <p>12h</p>
+    </div>
+    <div class="stat-card">
+      <span class="stat-emoji">🎯</span>
+      <h3>正答率</h3>
+      <p>82%</p>
+    </div>
+    <div class="stat-card">
+      <span class="stat-emoji">🌟</span>
+      <h3>覚えた単語</h3>
+      <p>37</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>今日の学習ミッション</h2>
+    <div class="mission" onclick="openTodayWord()">
+      ✅ 今日の単語：<strong>変数</strong>
+    </div>
+    <div class="mission">
+      🔥 連続学習日数：<strong>5日</strong>
+    </div>
+    <div class="mission">
+      🧠 デイリークイズ：<strong>あと2問</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>レベル別学習</h2>
+    <div class="grid">
+      <div class="level-select-box">
+        <div class="level-icon">🌱</div>
+        <span class="level-badge beginner">初級</span>
+        <p>やさしいIT単語を学ぶ</p>
+        <div class="progress-bar-wrap"><div class="progress-bar" style="width:60%"></div></div>
+        <button class="btn" onclick="openLevel('beginner')" style="margin-top:14px;">学習開始 →</button>
+      </div>
+      <div class="level-select-box">
+        <div class="level-icon">🌿</div>
+        <span class="level-badge middle">中級</span>
+        <p>ネットワークやデータベースを学ぶ</p>
+        <div class="progress-bar-wrap"><div class="progress-bar" style="width:35%"></div></div>
+        <button class="btn" onclick="openLevel('middle')" style="margin-top:14px;">学習開始 →</button>
+      </div>
+      <div class="level-select-box">
+        <div class="level-icon">🌳</div>
+        <span class="level-badge advanced">上級</span>
+        <p>プログラミングや設計を学ぶ</p>
+        <div class="progress-bar-wrap"><div class="progress-bar" style="width:15%"></div></div>
+        <button class="btn" onclick="openLevel('advanced')" style="margin-top:14px;">学習開始 →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WORDS ===== -->
+<section id="words" class="page">
+  <div class="card">
+    <h2>IT用語をやさしい日本語で学ぶ</h2>
+
+    <div class="grid">
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">変数</div>
+        <div class="illustration">📦</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>データを入れておく箱です。</div>
+        <div class="example"><strong>具体例：</strong><br>名前を入れる箱、点数を入れる箱のようなものです。</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">アルゴリズム</div>
+        <div class="illustration">🧩</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>問題を解決するための順番や手順です。</div>
+        <div class="example"><strong>具体例：</strong><br>カレーを作る手順もアルゴリズムです。</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">データベース</div>
+        <div class="illustration">🗂️</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>データを整理して保存する場所です。</div>
+        <div class="example"><strong>具体例：</strong><br>学校の学生情報を保存するシステムです。</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">SQL</div>
+        <div class="illustration">💾</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>データベースを操作するための言葉です。</div>
+        <div class="example"><strong>具体例：</strong><br>学生一覧を表示したいときに使います。</div>
+        <div class="diagram">SELECT * FROM students;</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">IPアドレス</div>
+        <div class="illustration">🌐</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>コンピュータの住所です。</div>
+        <div class="example"><strong>具体例：</strong><br>家に住所があるように、パソコンにも住所があります。</div>
+        <div class="diagram">パソコンA → IP: 192.168.1.1<br>パソコンB → IP: 192.168.1.2</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">サブネットマスク</div>
+        <div class="illustration">📡</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>ネットワークのグループを分けるための番号です。</div>
+        <div class="example"><strong>具体例：</strong><br>同じ学校のパソコンを同じグループに分けます。</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">クラウド</div>
+        <div class="illustration">☁️</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>インターネット上でサービスを使う仕組みです。</div>
+        <div class="example"><strong>具体例：</strong><br>Google DriveやOneDriveなどがあります。</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">ファイアウォール</div>
+        <div class="illustration">🔥</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>危険な通信を止めるセキュリティの壁です。</div>
+        <div class="example"><strong>具体例：</strong><br>怪しいアクセスをブロックします。</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">ハッシュ化</div>
+        <div class="illustration">🔐</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>データを読めない形に変換することです。</div>
+        <div class="example"><strong>具体例：</strong><br>パスワード保存によく使われます。</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">オブジェクト指向</div>
+        <div class="illustration">🧱</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>モノごとを部品のように考えてプログラムを作る方法です。</div>
+        <div class="example"><strong>具体例：</strong><br>車クラス、人クラスなどを作ります。</div>
+        <div class="diagram">車クラス<br>├ 色<br>├ 速度<br>└ 走る()</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">UML</div>
+        <div class="illustration">📘</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>システムの設計を図で表す方法です。</div>
+        <div class="example"><strong>具体例：</strong><br>クラス図やユースケース図があります。</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">アジャイル開発</div>
+        <div class="illustration">🚀</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>少しずつ作って改善する開発方法です。</div>
+        <div class="example"><strong>具体例：</strong><br>短い期間で何回も修正しながら作ります。</div>
+      </div>
+
+      <div class="term-box" data-level="beginner">
+        <div class="term-title">BCP</div>
+        <div class="illustration">🏢</div>
+        <div class="easy"><strong>やさしい説明：</strong><br>災害のときでも仕事を続けるための計画です。</div>
+        <div class="example"><strong>具体例：</strong><br>地震が起きても会社のシステムを止めない計画です。</div>
+      </div>
+    </div>
+
+    <div class="study-navigation">
+      <button class="btn" onclick="prevWord()">← 前へ</button>
+      <button class="btn" onclick="nextWord()">次へ →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SEARCH ===== -->
+<section id="search" class="page">
+  <div class="card">
+    <h2>IT用語検索</h2>
+    <input type="text" id="searchInput" placeholder="🔍 IT用語を検索...（例：SQL、クラウド）" onkeyup="searchTerms()">
+    <select id="categoryFilter" onchange="searchTerms()">
+      <option value="">✨ すべての分野</option>
+      <option value="プログラミング">💻 プログラミング</option>
+      <option value="ネットワーク">🌐 ネットワーク</option>
+      <option value="セキュリティ">🔐 セキュリティ</option>
+      <option value="マネジメント">📋 マネジメント</option>
+    </select>
+    <div style="margin-top: 14px;">
+      <p style="font-size: 13px; color: var(--text-mid); margin-bottom: 8px; font-weight: 600;">最近検索した単語：</p>
+      <div class="recent-tags">
+        <span class="recent-tag" onclick="quickSearch('SQL')">SQL</span>
+        <span class="recent-tag" onclick="quickSearch('IPアドレス')">IPアドレス</span>
+        <span class="recent-tag" onclick="quickSearch('BCP')">BCP</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>検索結果</h2>
+    <div class="grid" id="searchResults">
+      <div class="term-box" data-category="プログラミング" data-level="middle">
+        <div class="term-title">アルゴリズム</div>
+        <div class="easy">問題を解決するための順番や手順です。</div>
+      </div>
+      <div class="term-box" data-category="ネットワーク" data-level="middle">
+        <div class="term-title">IPアドレス</div>
+        <div class="easy">コンピュータの住所です。</div>
+      </div>
+      <div class="term-box" data-category="セキュリティ" data-level="middle">
+        <div class="term-title">ファイアウォール</div>
+        <div class="easy">危険な通信を止める壁です。</div>
+      </div>
+      <div class="term-box" data-category="マネジメント" data-level="advanced">
+        <div class="term-title">BCP</div>
+        <div class="easy">災害時でも仕事を続けるための計画です。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUIZ ===== -->
+<section id="quiz" class="page">
+  <div class="card">
+    <h2>✏️ AI添削クイズ</h2>
+    <div style="background: var(--pink-pale); border: 2px solid var(--pink-light); border-radius: 16px; padding: 14px 18px; margin-bottom: 12px;">
+      <strong>📝 問題：</strong> 「変数」を自分の言葉で説明してください。
+    </div>
+    <textarea id="answer" placeholder="ここに説明を書いてください..."></textarea>
+    <button class="btn" onclick="checkAnswer()">🤖 AI添削をする</button>
+    <div id="feedbackArea"></div>
+  </div>
+
+  <div class="card" id="answerExample" style="display:none;">
+    <h2>💡 回答例</h2>
+    <div class="easy">変数は、データを一時的に保存するための箱です。例えば、名前や数字を入れることができます。</div>
+  </div>
+</section>
+
+<!-- ===== RECORD ===== -->
+<section id="record" class="page">
+  <div class="card">
+    <h2>📊 学習記録</h2>
+    <div class="grid">
+      <div class="term-box">
+        <div style="font-size: 28px; margin-bottom: 8px;">💻</div>
+        <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 8px;">プログラミング</h3>
+        <p style="font-size: 13px; color: var(--text-mid);">学習単語数：<strong>12</strong></p>
+        <p style="font-size: 13px; color: var(--text-mid); margin-top: 4px;">正答率：<strong>85%</strong></p>
+        <div class="progress-bar-wrap" style="margin-top: 10px;"><div class="progress-bar" style="width:85%"></div></div>
+      </div>
+      <div class="term-box">
+        <div style="font-size: 28px; margin-bottom: 8px;">🌐</div>
+        <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 8px;">ネットワーク</h3>
+        <p style="font-size: 13px; color: var(--text-mid);">学習単語数：<strong>9</strong></p>
+        <p style="font-size: 13px; color: var(--text-mid); margin-top: 4px;">正答率：<strong>70%</strong></p>
+        <div class="progress-bar-wrap" style="margin-top: 10px;"><div class="progress-bar" style="width:70%"></div></div>
+      </div>
+      <div class="term-box">
+        <div style="font-size: 28px; margin-bottom: 8px;">🗄️</div>
+        <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 8px;">データベース</h3>
+        <p style="font-size: 13px; color: var(--text-mid);">学習単語数：<strong>16</strong></p>
+        <p style="font-size: 13px; color: var(--text-mid); margin-top: 4px;">正答率：<strong>90%</strong></p>
+        <div class="progress-bar-wrap" style="margin-top: 10px;"><div class="progress-bar" style="width:90%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>⚠️ 苦手単語</h2>
+    <ul id="weakWords">
+      <li>アルゴリズム</li>
+      <li>IPアドレス</li>
+      <li>クラス</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== REVIEW ===== -->
+<section id="review" class="page">
+  <div class="card">
+    <h2>🔄 AI自動復習</h2>
+    <p style="font-size: 14px; color: var(--text-mid); margin-bottom: 12px;">あなたが苦手な単語をAIが分析しました。</p>
+    <div class="review-box">📌 復習おすすめ：<strong>IPアドレス</strong></div>
+    <div class="easy" style="margin-top: 12px;"><strong>やさしい説明：</strong><br>インターネット上の住所です。</div>
+    <div class="example"><strong>具体例：</strong><br>家に住所があるように、コンピュータにも住所があります。</div>
+    <button class="btn" onclick="startReviewQuiz()">🚀 復習クイズ開始</button>
+    <div id="reviewQuizArea"></div>
+  </div>
+</section>
+
+<footer>
+  🌸 IT Learn © 2026 — <span>留学生向けIT学習サポート</span> 🌸
+</footer>
+
+<script>
+  let currentWordIndex = 0;
+
+  function showSingleWord(index) {
+    const terms = document.querySelectorAll('#words .term-box');
+    terms.forEach((term, i) => { term.style.display = i === index ? 'block' : 'none'; });
+  }
+
+  function nextWord() {
+    const terms = document.querySelectorAll('#words .term-box');
+    currentWordIndex = (currentWordIndex + 1) % terms.length;
+    showSingleWord(currentWordIndex);
+  }
+
+  function prevWord() {
+    const terms = document.querySelectorAll('#words .term-box');
+    currentWordIndex = (currentWordIndex - 1 + terms.length) % terms.length;
+    showSingleWord(currentWordIndex);
+  }
+
+  function openTodayWord() {
+    showPage('words');
+    const terms = document.querySelectorAll('#words .term-box');
+    terms.forEach(term => {
+      if (term.innerText.includes('変数')) {
+        term.style.display = 'block';
+        term.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        term.style.display = 'none';
+      }
+    });
+  }
+
+  function openLevel(level) {
+    showPage('words');
+    const terms = document.querySelectorAll('#words .term-box');
+    const beginnerWords = ['変数', 'アルゴリズム', 'データベース'];
+    const middleWords = ['SQL', 'IPアドレス', 'サブネットマスク', 'クラウド', 'ファイアウォール'];
+    const advancedWords = ['ハッシュ化', 'オブジェクト指向', 'UML', 'アジャイル開発', 'BCP'];
+    const map = { beginner: beginnerWords, middle: middleWords, advanced: advancedWords };
+    terms.forEach(term => {
+      term.style.display = map[level].some(w => term.innerText.includes(w)) ? 'block' : 'none';
+    });
+  }
+
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('nav-active'));
+    document.getElementById(pageId).classList.add('active');
+    const navMap = { home:'🏠 ホーム', words:'📖 単語学習', search:'🔍 単語検索', quiz:'✏️ AIクイズ', record:'📊 学習記録', review:'🔄 自動復習' };
+    document.querySelectorAll('nav button').forEach(b => {
+      if (b.textContent.trim() === navMap[pageId]) b.classList.add('nav-active');
+    });
+  }
+
+  function quickSearch(word) {
+    document.getElementById('searchInput').value = word;
+    searchTerms();
+  }
+
+  function searchTerms() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const category = document.getElementById('categoryFilter').value;
+    document.querySelectorAll('#searchResults .term-box').forEach(term => {
+      const matchText = term.innerText.toLowerCase().includes(input);
+      const matchCategory = category === '' || category === term.dataset.category;
+      term.style.display = matchText && matchCategory ? 'block' : 'none';
+    });
+  }
+
+  function startReviewQuiz() {
+    document.getElementById('reviewQuizArea').innerHTML = `
+      <div class="card" style="margin-top:20px;">
+        <h2>💬 復習クイズ</h2>
+        <div style="background:var(--pink-pale);border:2px solid var(--pink-light);border-radius:16px;padding:14px 18px;margin-bottom:12px;">
+          <strong>📝 問題：</strong> IPアドレスとは何ですか？
+        </div>
+        <textarea id="reviewAnswer" placeholder="自分の言葉で説明してください..."></textarea>
+        <button class="btn" onclick="checkReviewQuiz()">🤖 回答する</button>
+        <div id="reviewFeedback"></div>
+      </div>`;
+  }
+
+  function checkReviewQuiz() {
+    const answer = document.getElementById('reviewAnswer').value;
+    const feedback = document.getElementById('reviewFeedback');
+    if (answer.trim() === '') {
+      feedback.innerHTML = `<div class="feedback" style="background:#FFE4E4;border-color:#FFAAAA;">⚠️ 回答を書いてください。</div>`;
+      return;
+    }
+    let score = 60;
+    let comments = [];
+    if (answer.includes('住所')) { score += 25; comments.push('「住所」という表現が使えていて良いです。'); }
+    if (answer.includes('コンピュータ') || answer.includes('パソコン')) { score += 15; comments.push('何の住所か説明できています。'); }
+    if (answer.length > 30) { score += 10; comments.push('説明が具体的です。'); }
+    if (score > 100) score = 100;
+    feedback.innerHTML = `
+      <div class="feedback">
+        <h3>🌟 AI復習結果：${score}点</h3>
+        <ul style="padding-left:20px;margin-top:10px;line-height:2;">
+          ${comments.map(c => `<li>${c}</li>`).join('')}
+          <li>回答例：IPアドレスは、インターネット上のコンピュータの住所です。</li>
+        </ul>
+      </div>`;
+  }
+
+  function checkAnswer() {
+    const answer = document.getElementById('answer').value;
+    const feedbackArea = document.getElementById('feedbackArea');
+    if (answer.trim() === '') {
+      document.getElementById('answerExample').style.display = 'block';
+      feedbackArea.innerHTML = `<div class="feedback" style="background:#FFE4E4;border-color:#FFAAAA;">⚠️ 説明を書いてください。</div>`;
+      return;
+    }
+    let score = 50;
+    let comments = [];
+    if (answer.includes('箱')) { score += 20; comments.push('「箱」という表現が使えていてわかりやすいです。'); }
+    if (answer.includes('データ')) { score += 15; comments.push('データについて説明できています。'); }
+    if (answer.length > 40) { score += 10; comments.push('説明が具体的です。'); }
+    if (!answer.includes('例えば')) comments.push('具体例を入れると、もっとわかりやすくなります。');
+    if (score > 100) score = 100;
+    feedbackArea.innerHTML = `
+      <div class="feedback">
+        <h3>🌟 AI添削結果：${score}点</h3>
+        <ul style="margin-top:10px;padding-left:20px;line-height:2;">
+          ${comments.map(c => `<li>${c}</li>`).join('')}
+          <li><strong>正解例：</strong>変数は、データを保存するための箱です。名前や数字などを入れることができます。</li>
+        </ul>
+      </div>`;
+  }
+</script>
+</body>
+</html>
